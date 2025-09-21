@@ -15,3 +15,5 @@
   - `Esc`: 초기화
   - `Backspace`: 한 글자 지우기
 - 이스터에그가 숨겨져 있습니다
+
+  <img width="473" height="817" alt="image" src="https://github.com/user-attachments/assets/5c2da149-19d4-4d2d-a11f-ca6059149224" />
