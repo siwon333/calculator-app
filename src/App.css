@@ -1,18 +1,11 @@
+/* --- 기본 CRA 스타일(필요시 유지) --- */
 .App {
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
+.App-logo { height: 40vmin; pointer-events: none; }
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  .App-logo { animation: App-logo-spin infinite 20s linear; }
 }
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -23,16 +16,173 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.App-link { color: #61dafb; }
 
-.App-link {
-  color: #61dafb;
+/* --- 계산기 카드 --- */
+.container {
+  max-width: 420px;
+  margin: 24px auto;
+  padding: 12px;
+  text-align: center;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
 }
 
+/* --- 디스플레이 --- */
+.display {
+  height: 60px;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  font-size: 28px;
+  background: #f9f9fb;
+  border: none;
+  border-bottom: 1px solid #e6e6ee;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  color: #222;
+}
+
+/* --- 키패드 레이아웃 --- */
+.keypad {
+  display: grid;
+  grid-template-columns: 1fr 86px;
+  gap: 10px;
+  height: 460px;          /* ← 총 높이를 정해두면 양쪽이 같은 높이로 꽉 참 */
+}
+
+.numbers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);  /* ← 4행을 같은 비율로 꽉 채움 */
+  gap: 10px;
+}
+
+.operators {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);  /* ← 6행을 같은 비율로 꽉 채움 */
+  gap: 10px;
+  background: #f2f7ff;
+  border-radius: 12px;
+  padding: 6px;
+}
+
+
+/* --- 버튼 공통 --- */
+.button {
+  width: 100%;
+  height: 100%;      /* ← 셀 높이만큼 확장 */
+  min-height: 56px;  /* ← 너무 작아지지 않도록 최소값 */
+  font-size: 23px;
+  border: none;
+  border-radius: 10px;
+  background: #f1f1f4;
+  color: #222;
+  cursor: pointer;
+  transition: transform .06s ease, background .15s ease, box-shadow .15s ease;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+}
+.button:hover { background: #e7e7ee; }
+.button:active { transform: translateY(1px); }
+
+/* --- 연산자 버튼 색상 (오른쪽 열 전체) --- */
+.operators .button {
+  background: #e8f1ff;
+}
+.operators .button:hover {
+  background: #dbe8ff;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.05);
+}
+
+/* --- 특수 버튼 강조: C와 =  (배열 순서를 이용한 nth-child) --- */
+/* numbers: ["7","8","9","4","5","6","1","2","3","0",".","C"] -> 12번째가 C */
+.numbers .button:nth-child(12) {
+  background: #ffecec;
+  color: #c04343;
+  font-weight: 600;
+}
+.numbers .button:nth-child(12):hover { background: #ffdede; }
+
+/* operators: ["+","-","*","/","%","="] -> 6번째가 =  */
+.operators .button:nth-child(6) {
+  background: #cfe4ff;
+  color: #222;
+  font-weight: 700;
+}
+.operators .button:nth-child(6):hover { background: #aacdfb; }
+
+/* --- 히스토리(있다면) --- */
+.history {
+  margin-top: 10px;
+  text-align: right;
+  color: #666;
+  font-size: 14px;
+}
+
+.history li {
+  list-style: none;
+  margin: 4px 0;
+}
+
+/* 히스토리 자리 표시자 */
+.history.placeholder {
+  color: #bbb;        /* 옅은 회색 */
+  font-style: italic; /* 기울임 글씨 */
+}
+
+.history-wrap { margin-top: 12px; }
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.history-clear {
+  border: none;
+  background: #f5f5f7;
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #666;
+  transition: background 0.2s;
+}
+.history-clear:hover {
+  background: #ececf1;
+}
+
+h1 {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 28px;
+  margin-bottom: 16px;
+  color: #333;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  color: #ffffff;
+  margin-top: -15px;   /* 제목과 간격 줄이기 */
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+  text-align: right;  /* ✅ 오른쪽 정렬 */
+}
+
+.subtitle:hover {
+  color: #13afda;    /* 마우스 오버 시 색상 변화 */
+}
+
+
+/* --- 애니메이션 유지 --- */
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
