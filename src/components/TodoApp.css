@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root{
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --ink: #111827;
+  --muted:#6b7280;
+
+  --rail:#eef5ff;         /* 연파랑 */
+  --rail-border:#dbeafe;
+
+  --input-bg:#fbfbfe;
+  --input-bd:#f0f1f5;
+
+  --item-bg:#eef1f6;      /* 항목/버튼 연그레이 */
+  --item-bd:#e5e7eb;
+
+  --add-bg:#e8f1ff;
+  --add-bd:#cfe1ff;
+
+  --danger-bg:#fdecec;    /* 삭제 버튼 연분홍 */
+  --danger-bd:#f9d3d3;
+  --danger-ink:#b91c1c;
+
+  --accent:#3b82f6;
+  --radius:20px;
+  --shadow:0 10px 25px rgba(17,24,39,.1);
+}
+
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,sans-serif}
+
+/* 레이아웃 */
+.todo-wrap{min-height:100%;display:grid;place-items:center;padding:24px}
+.todo-card{
+  width:min(640px,94vw);
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:28px 22px 24px;
+}
+
+/* 타이틀: 세리프/대문자 */
+.todo-title{
+  font-family:Cinzel,serif;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  font-size:28px;
+  text-align:center;
+  margin:0 0 16px;
+}
+
+/* 상단: 날짜/카운트 */
+.todo-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.today{font-weight:600}
+.count{display:flex;align-items:center;color:var(--muted);font-size:14px;gap:8px}
+.count-dot{width:10px;height:10px;border-radius:999px;background:#22c55e;display:inline-block}
+
+/* 입력 폼 */
+.todo-form{display:grid;grid-template-columns:1fr 100px;gap:12px;margin:8px 0 16px}
+.todo-input{
+  height:48px;border-radius:14px;border:1px solid var(--input-bd);
+  background:var(--input-bg);padding:0 14px;font-size:16px;
+}
+.todo-input:focus{outline:3px solid var(--accent);outline-offset:2px}
+.btn-add{
+  height:48px;border-radius:14px;border:1px solid var(--add-bd);
+  background:var(--add-bg);cursor:pointer;font-weight:700;
+}
+.btn-add:hover{filter:brightness(.98)}
+
+/* 리스트 */
+.todo-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.todo-item{
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;
+  gap:12px;
+  background:var(--item-bg);
+  border:1px solid var(--item-bd);
+  border-radius:16px;
+  padding:10px 12px;
+}
+.todo-item.is-done .todo-text{
+  text-decoration:line-through;color:#6b7280;
+}
+
+/* 체크박스 커스텀 */
+.check input{position:absolute;opacity:0}
+.check-visual{
+  width:22px;height:22px;border-radius:6px;
+  border:2px solid var(--rail-border);display:inline-block;
+  background:#fff;
+}
+.check input:checked + .check-visual{
+  background:var(--rail);border-color:var(--accent);box-shadow:inset 0 0 0 2px #fff;
+}
+
+/* 텍스트 */
+.todo-text{font-size:16px;word-break:break-word}
+
+/* 삭제 버튼 */
+.btn-del{
+  border:none;border-radius:12px;
+  background:var(--danger-bg);
+  box-shadow: inset 0 0 0 1px var(--danger-bd);
+  color:var(--danger-ink);
+  height:36px;padding:0 10px;cursor:pointer;font-weight:600;
+}
+.btn-del:hover{filter:brightness(.98)}
+
+/* 접근성 */
+.btn-add:focus-visible,.btn-del:focus-visible,.check input:focus-visible + .check-visual{
+  outline:3px solid var(--accent);outline-offset:2px;
+}
+
+/* 반응형 */
+@media (max-width:560px){
+  .todo-form{grid-template-columns:1fr}
+}

@@ -1,188 +1,230 @@
-/* --- 기본 CRA 스타일(필요시 유지) --- */
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root{
+  --bg:#f6f7fb; --card:#fff; --ink:#111827; --muted:#6b7280;
+  --rail:#eef5ff; --rail-border:#dbeafe;
+  --input-bg:#fbfbfe; --input-bd:#f0f1f5;
+  --item-bg:#eef1f6; --item-bd:#e5e7eb;
+  --add-bg:#e8f1ff; --add-bd:#cfe1ff;
+  --danger-bg:#fdecec; --danger-bd:#f9d3d3; --danger-ink:#b91c1c;
+  --accent:#3b82f6; --radius:20px; --shadow:0 10px 25px rgba(17,24,39,.1);
+}
+
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,sans-serif}
+
+.todo-wrap{min-height:100%;display:grid;place-items:center;padding:24px}
+.todo-card{width:min(720px,95vw);background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 22px 24px}
+.todo-title{font-family:Cinzel,serif;text-transform:uppercase;letter-spacing:.12em;font-size:28px;text-align:center;margin:0 0 16px}
+.todo-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.today{font-weight:600}
+.count{display:flex;align-items:center;color:var(--muted);font-size:14px;gap:8px}
+.count-dot{width:10px;height:10px;border-radius:999px;background:#22c55e;display:inline-block}
+
+/* 입력 폼: 이모지/인풋/우선순위/추가 버튼 */
+.todo-form{display:grid;grid-template-columns:70px 1fr 120px 92px;gap:12px;margin:8px 0 12px}
+.select-emoji,.select-priority,.todo-input,.btn-add{height:48px;border-radius:14px;border:1px solid var(--input-bd);background:var(--input-bg);padding:0 12px;font-size:16px}
+.select-emoji{font-size:20px}
+.select-priority{font-weight:600}
+.todo-input{background:var(--input-bg);border:1px solid var(--input-bd)}
+.todo-input:focus,.select-emoji:focus,.select-priority:focus{outline:3px solid var(--accent);outline-offset:2px}
+.btn-add{border-color:var(--add-bd);background:var(--add-bg);cursor:pointer;font-weight:700}
+.btn-add:hover{filter:brightness(.98)}
+
+/* 필터 칩 */
+.filters{display:flex;gap:8px;margin:6px 0 16px}
+.chip{border:1px solid #e6e9f2;background:#f6f8fc;color:#334155;border-radius:999px;height:34px;padding:0 12px;cursor:pointer}
+.chip.is-active{background:#e8f1ff;border-color:var(--add-bd);font-weight:700}
+
+/* 리스트 */
+.todo-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.todo-item{
+  display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:12px;
+  background:var(--item-bg);border:1px solid var(--item-bd);border-radius:16px;padding:10px 12px;
+}
+.todo-item.is-done .todo-text{ text-decoration:line-through; color:#6b7280; }
+
+/* 기본 체크박스 */
+.check input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #cbd5e1;   /* 연한 회색 테두리 */
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+/* 체크된 상태 - 파스텔 블루 */
+.check input[type="checkbox"]:checked {
+  background: #a5d8ff;        /* 파스텔 블루 */
+  border-color: #74c0fc;
+}
+
+/* 체크 아이콘 */
+.check input[type="checkbox"]:checked::after {
+  content: "✔";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  font-size: 13px;
+  color: #1c7ed6;             /* 진한 파스텔 블루 */
+  font-weight: bold;
+}
+
+/* 텍스트/이모지 */
+.todo-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size:16px;
+  word-break:break-word
+}
+.todo-text .emoji{margin-right:8px}
+
+/* 우선순위 배지 */
+.badge{border-radius:10px;padding:4px 8px;font-size:12px;font-weight:700}
+.badge.high{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+.badge.medium{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+.badge.low{background:#e5e7eb;color:#374151;border:1px solid #d1d5db}
+
+/* 삭제 버튼 */
+.btn-del{border:none;border-radius:12px;background:var(--danger-bg);box-shadow: inset 0 0 0 1px var(--danger-bd);color:var(--danger-ink);height:36px;padding:0 10px;cursor:pointer;font-weight:600}
+.btn-del:hover{filter:brightness(.98)}
+
+/* 접근성 */
+.btn-add:focus-visible,.btn-del:focus-visible,.chip:focus-visible,.check input:focus-visible + .check-visual{outline:3px solid var(--accent);outline-offset:2px}
+
+/* 반응형 */
+@media (max-width:640px){
+  .todo-form{grid-template-columns:60px 1fr 1fr;grid-auto-rows:auto}
+  .select-priority{grid-column:3 / 4}
+  .btn-add{grid-column:1 / -1}
+}
+
+/* 드래그 핸들 */
+.drag-handle {
+  width: 28px;
   text-align: center;
+  cursor: grab;
+  user-select: none;
+  color: #94a3b8;
+  font-weight: 700;
+  font-size: 18px;
 }
-.App-logo { height: 40vmin; pointer-events: none; }
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo { animation: App-logo-spin infinite 20s linear; }
+.todo-item:active .drag-handle {
+  cursor: grabbing;
 }
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+
+/* 액션 버튼 영역: 한 줄 정렬 */
+.row-actions {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.row-actions .ghost,
+.row-actions .btn-del {
+  height: 30px;
+  min-width: 40px;
+  padding: 0 10px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-.App-link { color: #61dafb; }
-
-/* --- 계산기 카드 --- */
-.container {
-  max-width: 420px;
-  margin: 24px auto;
-  padding: 12px;
-  text-align: center;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
-}
-
-/* --- 디스플레이 --- */
-.display {
-  height: 60px;
-  margin-bottom: 12px;
-  padding: 10px 12px;
-  font-size: 28px;
-  background: #f9f9fb;
-  border: none;
-  border-bottom: 1px solid #e6e6ee;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end; /* 오른쪽 정렬 */
-  color: #222;
-}
-
-/* --- 키패드 레이아웃 --- */
-.keypad {
-  display: grid;
-  grid-template-columns: 1fr 86px;
-  gap: 10px;
-  height: 460px;          /* ← 총 높이를 정해두면 양쪽이 같은 높이로 꽉 참 */
-}
-
-.numbers {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(4, 1fr);  /* ← 4행을 같은 비율로 꽉 채움 */
-  gap: 10px;
-}
-
-.operators {
-  display: grid;
-  grid-template-rows: repeat(6, 1fr);  /* ← 6행을 같은 비율로 꽉 채움 */
-  gap: 10px;
-  background: #f2f7ff;
-  border-radius: 12px;
-  padding: 6px;
-}
-
-
-/* --- 버튼 공통 --- */
-.button {
-  width: 100%;
-  height: 100%;      /* ← 셀 높이만큼 확장 */
-  min-height: 56px;  /* ← 너무 작아지지 않도록 최소값 */
-  font-size: 23px;
-  border: none;
-  border-radius: 10px;
-  background: #f1f1f4;
-  color: #222;
-  cursor: pointer;
-  transition: transform .06s ease, background .15s ease, box-shadow .15s ease;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.05);
-}
-.button:hover { background: #e7e7ee; }
-.button:active { transform: translateY(1px); }
-
-/* --- 연산자 버튼 색상 (오른쪽 열 전체) --- */
-.operators .button {
-  background: #e8f1ff;
-}
-.operators .button:hover {
-  background: #dbe8ff;
-  box-shadow: 0 2px 0 rgba(0,0,0,0.05);
-}
-
-/* --- 특수 버튼 강조: C와 =  (배열 순서를 이용한 nth-child) --- */
-/* numbers: ["7","8","9","4","5","6","1","2","3","0",".","C"] -> 12번째가 C */
-.numbers .button:nth-child(12) {
-  background: #ffecec;
-  color: #c04343;
-  font-weight: 600;
-}
-.numbers .button:nth-child(12):hover { background: #ffdede; }
-
-/* operators: ["+","-","*","/","%","="] -> 6번째가 =  */
-.operators .button:nth-child(6) {
-  background: #cfe4ff;
-  color: #222;
-  font-weight: 700;
-}
-.operators .button:nth-child(6):hover { background: #aacdfb; }
-
-/* --- 히스토리(있다면) --- */
-.history {
-  margin-top: 10px;
-  text-align: right;
-  color: #666;
   font-size: 14px;
-}
-
-.history li {
-  list-style: none;
-  margin: 4px 0;
-}
-
-/* 히스토리 자리 표시자 */
-.history.placeholder {
-  color: #bbb;        /* 옅은 회색 */
-  font-style: italic; /* 기울임 글씨 */
-}
-
-.history-wrap { margin-top: 12px; }
-
-.history-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #666;
-  font-size: 14px;
-  margin-bottom: 6px;
-}
-
-.history-clear {
-  border: none;
-  background: #f5f5f7;
-  padding: 4px 8px;
   border-radius: 8px;
-  cursor: pointer;
-  font-size: 12px;
-  color: #666;
-  transition: background 0.2s;
-}
-.history-clear:hover {
-  background: #ececf1;
-}
-
-h1 {
-  font-family: 'Cinzel', serif;
-  font-weight: 700;
-  font-size: 28px;
-  margin-bottom: 16px;
-  color: #333;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-family: 'Cinzel', serif;
-  font-size: 12px;
-  color: #ffffff;
-  margin-top: -15px;   /* 제목과 간격 줄이기 */
-  margin-bottom: 16px;
-  letter-spacing: 0.5px;
-  text-align: right;  /* ✅ 오른쪽 정렬 */
-}
-
-.subtitle:hover {
-  color: #13afda;    /* 마우스 오버 시 색상 변화 */
+  white-space: nowrap;
 }
 
 
-/* --- 애니메이션 유지 --- */
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.ghost{
+  border:1px solid #e5e7eb; background:#f8fafc; color:#475569;
+  height:32px; padding:0 8px; border-radius:10px; cursor:pointer;
+}
+.ghost:hover{filter:brightness(.98)}
+
+/* 편집 모드 */
+.todo-item.editing{
+  grid-template-columns:28px 1fr auto; gap:10px;
+}
+.edit-fields{
+  display:grid; grid-template-columns:70px 1fr 120px; gap:10px; align-items:center;
+}
+.edit-actions{display:flex; gap:8px}
+
+/* 뱃지(기존 정의가 있으면 유지) */
+.badge.high{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+.badge.medium{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+.badge.low{background:#e5e7eb;color:#374151;border:1px solid #d1d5db}
+
+/* 카드 전체 폭 넓히기 */
+.todo-card{
+  width: min(1000px, 96vw);
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px 28px 28px;
+}
+
+/* 입력 폼: flex로 배치, 인풋이 가장 넓게 */
+.todo-form{
+  display: flex;
+  gap: 12px;
+  margin: 12px 0 18px;
+}
+
+.select-emoji{
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.todo-input{
+  flex: 1; /* 가운데 인풋이 가장 넓어지도록 */
+}
+
+.select-priority{
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.btn-add{
+  width: 100px;
+  flex-shrink: 0;
+}
+
+/* 필터 버튼 여유 */
+.filters{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0 20px;
+}
+
+/* 리스트 아이템 크기 줄이기 */
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;          /* 요소 간격 */
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+
+/* 체크박스, 버튼 높이 맞추기 */
+.todo-item input[type="checkbox"],
+.row-actions button {
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+}
+
+/* 드래그 핸들 위치 */
+.drag-handle{
+  margin-right: 6px;
 }
